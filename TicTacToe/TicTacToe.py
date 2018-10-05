@@ -24,26 +24,29 @@ class TicTacToe:
         columns = self.__get_columns()
         rows = self.__get_rows()
         diagonals = self.__get_diagonals()
+        win_moves []
         for win in winning:
             if win in columns:
                 c = columns.index(win)
                 rows = [char for char in columns[c]]
                 r = rows.index('-')
-                return [True, r, c]
+                win_moves.append([True, r, c])
             elif win in rows:
                 r = rows.index(win)
                 columns = [char for char in rows[r]]
                 c = columns.index('-')
-                return [True, r, c]
+                win_moves.append([True, r, c])
             elif win in diagonals[0]:
                 diagonal = [char for char in diagonals[0]]
                 r = diagonal.index('-')
-                return [True, r, r]
+                win_moves.append([True, r, r])
             elif win in diagonals[1]:
                 diagonal = [char for char in diagonals[1]]
                 r = diagonal.index('-')
                 c = 2 - r
-                return [True, r, c]
+                win_moves.append([True, r, c])
+        if len(win_moves) != 0:
+            return win_moves
         return [False]
     
     def _get_block(self):
