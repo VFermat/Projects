@@ -24,7 +24,7 @@ class TicTacToe:
         columns = self.__get_columns(board)
         rows = self.__get_rows(board)
         diagonals = self.__get_diagonals(board)
-        win_moves []
+        win_moves = []
         for win in winning:
             if win in columns:
                 c = columns.index(win)
@@ -49,35 +49,67 @@ class TicTacToe:
             return win_moves
         return [False]
     
-    def _get_block(self):
+    def _get_block(self, board=self.board):
         loosing = ['OO-', 'O-O', '-OO']
-        columns = self.__get_columns()
-        rows = self.__get_rows()
-        diagonals = self.__get_diagonals()
+        columns = self.__get_columns(board)
+        rows = self.__get_rows(board)
+        diagonals = self.__get_diagonals(board)
+        win_moves = []
         for loose in loosing:
             if loose in columns:
                 c = columns.index(loose)
                 rows = [char for char in columns[c]]
                 r = rows.index('-')
-                return [True, r, c]
+                win_moves.append([True, r, c])
             elif loose in rows:
                 r = rows.index(loose)
                 columns = [char for char in rows[r]]
                 c = columns.index('-')
-                return [True, r, c]
+                win_moves.append([True, r, c])
             elif loose in diagonals[0]:
                 diagonal = [char for char in diagonals[0]]
                 r = diagonal.index('-')
-                return [True, r, r]
+                win_moves.append([True, r, c])
             elif loose in diagonals[1]:
                 diagonal = [char for char in diagonals[1]]
                 r = diagonal.index('-')
                 c = 2 - r
-                return [True, r, c]
+                win_moves.append([True, r, c])
+        if len(win_moves) != 0:
+            return win_moves
         return [False]
     
     def _get_fork(self):
         wins = self._get_win()
+        for r in self.board:
+            for c in r:
+                if self.board[r][c] == '-':
+                    new_board = self.board
+                    new_board[r][c] = 'X'
+                    wins = self._get_win(board=new_board)
+                    if len(wins) >= 2:
+                        return [True, r, c]
+        return [False]
+    
+    def _get_block_fork(self):
+        wins = self._get_win()
+        for r in self.board:
+            for c in r:
+                if self.board[r][c] == '-':
+                    new_board = self.board
+                    new_board[r][c] = 'O'
+                    wins = self._get_win(board=new_board)
+                    if len(wins) >= 2:
+                        return [True, r, c]
+        return [False]
+    
+    def _get_center(self):
+        if self.board[1][1] == '-':
+            return [True, 1, 1]
+        return [False]
+    
+    def _get_opposite(self):
+        pass
         
         
     def __get_columns(self, board):
