@@ -19,11 +19,11 @@ class TicTacToe:
         printable_board = '\n'.join(printable_board)
         return printable_board
         
-    def _get_win(self):
+    def _get_win(self, board=self.board):
         winning = ['XX-', 'X-X', '-XX']
-        columns = self.__get_columns()
-        rows = self.__get_rows()
-        diagonals = self.__get_diagonals()
+        columns = self.__get_columns(board)
+        rows = self.__get_rows(board)
+        diagonals = self.__get_diagonals(board)
         win_moves []
         for win in winning:
             if win in columns:
@@ -75,24 +75,28 @@ class TicTacToe:
                 c = 2 - r
                 return [True, r, c]
         return [False]
+    
+    def _get_fork(self):
+        wins = self._get_win()
         
-    def __get_columns(self):
-        column0 = self.board[0][0] + self.board[1][0] + self.board[2][0]
-        column1 = self.board[0][1] + self.board[1][1] + self.board[2][1]
-        column2 = self.board[0][2] + self.board[1][2] + self.board[2][2]
+        
+    def __get_columns(self, board):
+        column0 = board[0][0] + board[1][0] + board[2][0]
+        column1 = board[0][1] + board[1][1] + board[2][1]
+        column2 = board[0][2] + board[1][2] + board[2][2]
         columns = [column0, column1, column2]
         return columns
     
-    def __get_rows(self):
-        row0 = ''.join(self.board[0])
-        row1 = ''.join(self.board[1])
-        row2 = ''.join(self.board[2])
+    def __get_rows(self, board):
+        row0 = ''.join(board[0])
+        row1 = ''.join(board[1])
+        row2 = ''.join(board[2])
         rows = [row0, row1, row2]
         return rows
     
-    def __get_diagonals(self):
-        diagonal0 = self.board[0][0] + self.board[1][1] + self.board[2][2]
-        diagonal1 = self.board[0][2] + self.board[1][1] + self.board[2][0]
+    def __get_diagonals(self, board):
+        diagonal0 = board[0][0] + board[1][1] + board[2][2]
+        diagonal1 = board[0][2] + board[1][1] + board[2][0]
         diagonals = [diagonal0, diagonal1]
         return diagonals
     
