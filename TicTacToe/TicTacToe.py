@@ -45,9 +45,33 @@ class TicTacToe:
                 c = 2 - r
                 return [True, r, c]
         return [False]
-        
-        
-        
+    
+    def _get_block(self):
+        loosing = ['OO-', 'O-O', '-OO']
+        columns = self.__get_columns()
+        rows = self.__get_rows()
+        diagonals = self.__get_diagonals()
+        for loose in loosing:
+            if loose in columns:
+                c = columns.index(loose)
+                rows = [char for char in columns[c]]
+                r = rows.index('-')
+                return [True, r, c]
+            elif loose in rows:
+                r = rows.index(loose)
+                columns = [char for char in rows[r]]
+                c = columns.index('-')
+                return [True, r, c]
+            elif loose in diagonals[0]:
+                diagonal = [char for char in diagonals[0]]
+                r = diagonal.index('-')
+                return [True, r, r]
+            elif loose in diagonals[1]:
+                diagonal = [char for char in diagonals[1]]
+                r = diagonal.index('-')
+                c = 2 - r
+                return [True, r, c]
+        return [False]
         
     def __get_columns(self):
         column0 = self.board[0][0] + self.board[1][0] + self.board[2][0]
