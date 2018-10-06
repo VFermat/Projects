@@ -63,6 +63,7 @@ class TicTacToe:
                 if winner[0]:
                     print(winner[1])
                     print('WHAT THE HECK HAS JUST HAPPENED?')
+        self._reset_board()
                 
             
     def _get_move(self):
@@ -250,6 +251,11 @@ class TicTacToe:
         elif loose in columns or loose in rows or loose in diagonals:
             return [True, 'Player Wins']
         return [False]
+    
+    def _reset_board(self):
+        self.board = [['-', '-', '-'],
+                      ['-', '-', '-'],
+                      ['-', '-', '-']]
     
 game = TicTacToe()
 
