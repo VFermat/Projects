@@ -20,6 +20,77 @@ class TicTacToe:
             printable_board.append('\t'.join(r))
         printable_board = '\n'.join(printable_board)
         return printable_board
+    
+    def play(self):
+        winner = self._check_winner()
+        com_move = 0
+        p_move = 0
+        while not winner[0]:
+            r_move, c_move = self._get_move()
+            self.board[r_move][c_move] = 'X'
+            com_move += 1
+            print('Computer Move: {}'.format(com_move))
+            print('Row: {}\nColumn: {}'.format(r_move + 1, c_move + 1))
+            print('\n{}'.format(self.print_board()))
+            winner = self._check_winner()
+            if winner[0]:
+                print(winner[1])
+                print('Congrats, you lost to the computer!')
+            else:
+                r_move = int(input('Qual Linha quer Jogar? 1, 2 ou 3?')) - 1
+                while r_move not in range(3):
+                    print('Escolha Invalida!')
+                    r_move = int(input('Qual Linha quer Jogar? 1, 2 ou 3?')) - 1
+                c_move = int(input('Qual Coluna Deseja Jogar? 1, 2 ou 3?')) - 1
+                while c_move not in range(3):
+                    print('Escolha Invalida!')
+                    c_move = int(input('Qual Coluna Deseja Jogar? 1, 2 ou 3?')) - 1
+                while self.board[r_move][c_move] != '-':
+                    print('Favor Escolher uma Jogada Valida!')
+                    r_move = int(input('Qual Linha quer Jogar? 1, 2 ou 3?')) - 1
+                    while r_move not in range(3):
+                        print('Escolha Invalida!')
+                        r_move = int(input('Qual Linha quer Jogar? 1, 2 ou 3?')) - 1
+                    c_move = int(input('Qual Coluna Deseja Jogar? 1, 2 ou 3?')) - 1
+                    while c_move not in range(3):
+                        print('Escolha Invalida!')
+                        c_move = int(input('Qual Coluna Deseja Jogar? 1, 2 ou 3?')) - 1
+                self.board[r_move][c_move] = 'O'
+                p_move += 1
+                print('Player Move: {}'.format(p_move))
+                print('\n{}'.format(self.print_board()))
+                winner = self._check_winner()
+                if winner[0]:
+                    print(winner[1])
+                    print('WHAT THE HECK HAS JUST HAPPENED?')
+                
+            
+    def _get_move(self):
+        get_win = self._get_win(self.board)
+        if get_win[0] != False:
+            return get_win[0][1:]
+        get_block = self._get_block(self.board)
+        if get_block[0] != False:
+            return get_block[0][1:]
+        get_fork = self._get_fork()
+        if get_fork[0]:
+            return get_fork[1:]
+        get_block_fork = self._get_block_fork()
+        if get_block_fork[0]:
+            return get_block_fork[1:]
+        get_center = self._get_center()
+        if get_center[0]:
+            return get_center[1:]
+        get_opposite = self._get_opposite()
+        if get_opposite[0]:
+            return get_opposite[1:]
+        get_empty_corner = self._get_empty_corner()
+        if get_empty_corner[0]:
+            return get_empty_corner[1:]
+        get_empty_side = self._get_empty_side()
+        if get_empty_side[0]:
+            return get_empty_side[1:]
+        
         
     def _get_win(self, board):
         winning = ['XX-', 'X-X', '-XX']
@@ -83,7 +154,7 @@ class TicTacToe:
     
     def _get_fork(self):
         wins = self._get_win(self.board)
-        for r in range(self.board):
+        for r in range(len(self.board)):
             for c in range(3):
                 if self.board[r][c] == '-':
                     new_board = deepcopy(self.board)
@@ -167,3 +238,19 @@ class TicTacToe:
         side2 = self.board[1][2]
         side3 = self.board[2][0]
         return [side0, side1, side2, side3]
+    
+    def _check_winner(self):
+        win = 'XXX'
+        loose = 'OOO'
+        columns = self._get_columns(self.board)
+        rows = self._get_rows(self.board)
+        diagonals = self._get_diagonals(self.board)
+        if win in columns or win in rows or win in diagonals:
+            return [True, 'Computer Wins']
+        elif loose in columns or loose in rows or loose in diagonals:
+            return [True, 'Player Wins']
+        return [False]
+    
+game = TicTacToe()
+
+game.play()
