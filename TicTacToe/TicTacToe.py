@@ -22,6 +22,60 @@ class TicTacToe:
         return printable_board
     
     def play(self):
+        play_type = int(input('Wanna Start Playing?\n0 - Yes\n1 - No\n'))
+        while play_type not in range(1):
+            print('Please type a valid option!')
+        if play_type == 1:
+            self._c_play()
+        else:
+            self._p_play()
+            
+    def _p_play(self):
+        winner = self._check_winner()
+        com_move = 0
+        p_move = 0
+        print(self.print_board())
+        while not winner[0]:
+            r_move = int(input('Qual Linha quer Jogar? 1, 2 ou 3?')) - 1
+            while r_move not in range(3):
+                print('Escolha Invalida!')
+                r_move = int(input('Qual Linha quer Jogar? 1, 2 ou 3?')) - 1
+            c_move = int(input('Qual Coluna Deseja Jogar? 1, 2 ou 3?')) - 1
+            while c_move not in range(3):
+                print('Escolha Invalida!')
+                c_move = int(input('Qual Coluna Deseja Jogar? 1, 2 ou 3?')) - 1
+            while self.board[r_move][c_move] != '-':
+                print('Favor Escolher uma Jogada Valida!')
+                r_move = int(input('Qual Linha quer Jogar? 1, 2 ou 3?')) - 1
+                while r_move not in range(3):
+                    print('Escolha Invalida!')
+                    r_move = int(input('Qual Linha quer Jogar? 1, 2 ou 3?')) - 1
+                c_move = int(input('Qual Coluna Deseja Jogar? 1, 2 ou 3?')) - 1
+                while c_move not in range(3):
+                    print('Escolha Invalida!')
+                    c_move = int(input('Qual Coluna Deseja Jogar? 1, 2 ou 3?')) - 1
+            self.board[r_move][c_move] = 'O'
+            p_move += 1
+            print('Player Move: {}'.format(p_move))
+            print('\n{}'.format(self.print_board()))
+            winner = self._check_winner()
+            if winner[0]:
+                print(winner[1])
+                print('WHAT THE HECK HAS JUST HAPPENED?')
+            else:
+                r_move, c_move = self._get_move()
+                self.board[r_move][c_move] = 'X'
+                com_move += 1
+                print('Computer Move: {}'.format(com_move))
+                print('Row: {}\nColumn: {}'.format(r_move + 1, c_move + 1))
+                print('\n{}'.format(self.print_board()))
+                winner = self._check_winner()
+                if winner[0]:
+                    print(winner[1])
+                    print('Congrats, you lost to the computer!')
+        self._reset_board()
+            
+    def _c_play(self):
         winner = self._check_winner()
         com_move = 0
         p_move = 0
@@ -143,7 +197,7 @@ class TicTacToe:
             elif loose in diagonals[0]:
                 diagonal = [char for char in diagonals[0]]
                 r = diagonal.index('-')
-                win_moves.append([True, r, c])
+                win_moves.append([True, r, r])
             elif loose in diagonals[1]:
                 diagonal = [char for char in diagonals[1]]
                 r = diagonal.index('-')
