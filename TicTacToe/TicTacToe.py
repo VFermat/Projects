@@ -23,7 +23,7 @@ class TicTacToe:
     
     def play(self):
         play_type = int(input('Wanna Start Playing?\n0 - Yes\n1 - No\n'))
-        while play_type not in range(1):
+        while play_type not in range(2):
             print('Please type a valid option!')
         if play_type == 1:
             self._c_play()
@@ -139,13 +139,12 @@ class TicTacToe:
         get_opposite = self._get_opposite()
         if get_opposite[0]:
             return get_opposite[1:]
-        get_empty_corner = self._get_empty_corner()
-        if get_empty_corner[0]:
-            return get_empty_corner[1:]
         get_empty_side = self._get_empty_side()
         if get_empty_side[0]:
             return get_empty_side[1:]
-        
+        get_empty_corner = self._get_empty_corner()
+        if get_empty_corner[0]:
+            return get_empty_corner[1:]
         
     def _get_win(self, board):
         winning = ['XX-', 'X-X', '-XX']
@@ -244,22 +243,24 @@ class TicTacToe:
         else:
             O_ind = corners.index('O')
             move_ind = 3 - O_ind
-            return [True, corners_point[move_ind][0], corners_point[move_ind][1]]
+            if self.board[corners_point[move_ind][0]][corners_point[move_ind][1]] == '-':
+                return [True, corners_point[move_ind][0], corners_point[move_ind][1]]
+        return [False]
         
+    def _get_empty_side(self):
+        side_point = [[0, 1], [1, 0], [1, 2], [2, 1]]
+        sides = self._check_sides()
+        ind = sides.index('-')
+        return [True, side_point[ind][0], side_point[ind][1]] 
+    
     def _get_empty_corner(self):
         corners_point = [[0, 0], [0, 2], [2, 0], [2, 2]]
         corners = self._check_corners()
         if '-' not in corners:
             return [False]
         ind = corners.index('-')
-        return [True, corners_point[ind][0], corners_point[ind][1]]
+        return [True, corners_point[ind][0], corners_point[ind][1]]    
     
-    def _get_empty_side(self):
-        side_point = [[0, 1], [1, 0], [1, 2], [2, 1]]
-        sides = self._check_sides()
-        ind = sides.index('-')
-        return [True, side_point[ind][0], side_point[ind][1]] 
-        
     def _get_columns(self, board):
         column0 = board[0][0] + board[1][0] + board[2][0]
         column1 = board[0][1] + board[1][1] + board[2][1]
@@ -291,7 +292,7 @@ class TicTacToe:
         side0 = self.board[0][1]
         side1 = self.board[1][0]
         side2 = self.board[1][2]
-        side3 = self.board[2][0]
+        side3 = self.board[2][1]
         return [side0, side1, side2, side3]
     
     def _check_winner(self):
