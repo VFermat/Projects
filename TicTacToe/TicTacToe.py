@@ -305,7 +305,18 @@ class TicTacToe:
             return [True, 'Computer Wins']
         elif loose in columns or loose in rows or loose in diagonals:
             return [True, 'Player Wins']
+        elif self._get_tie():
+            return [True, 'It\'s a Tie']
         return [False]
+    
+    def _get_tie(self):
+        moves = []
+        for r in self.board:
+            for c in r:
+                moves.append(c)
+        if '-' in moves:
+            return False
+        return True
     
     def _reset_board(self):
         self.board = [['-', '-', '-'],
