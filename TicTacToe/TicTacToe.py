@@ -2,7 +2,7 @@
 """
 Created on Fri Oct  5 10:03:46 2018
 
-@author: Vitor Eller
+@author: Vitor Eller1
 """
 
 from copy import deepcopy
