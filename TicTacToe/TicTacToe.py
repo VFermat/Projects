@@ -7,13 +7,13 @@ Created on Fri Oct  5 10:03:46 2018
 
 from copy import deepcopy
 
+
 class TicTacToe:
-    
     def __init__(self):
         self.board = [['-', '-', '-'],
                       ['-', '-', '-'],
                       ['-', '-', '-']]
-        
+
     def print_board(self):
         printable_board = []
         for r in self.board:
@@ -118,7 +118,6 @@ class TicTacToe:
                     print(winner[1])
                     print('WHAT THE HECK HAS JUST HAPPENED?')
         self._reset_board()
-                
             
     def _get_move(self):
         get_win = self._get_win(self.board)
@@ -259,28 +258,8 @@ class TicTacToe:
         if '-' not in corners:
             return [False]
         ind = corners.index('-')
-        return [True, corners_point[ind][0], corners_point[ind][1]]    
-    
-    def _get_columns(self, board):
-        column0 = board[0][0] + board[1][0] + board[2][0]
-        column1 = board[0][1] + board[1][1] + board[2][1]
-        column2 = board[0][2] + board[1][2] + board[2][2]
-        columns = [column0, column1, column2]
-        return columns
-    
-    def _get_rows(self, board):
-        row0 = ''.join(board[0])
-        row1 = ''.join(board[1])
-        row2 = ''.join(board[2])
-        rows = [row0, row1, row2]
-        return rows
-    
-    def _get_diagonals(self, board):
-        diagonal0 = board[0][0] + board[1][1] + board[2][2]
-        diagonal1 = board[0][2] + board[1][1] + board[2][0]
-        diagonals = [diagonal0, diagonal1]
-        return diagonals
-    
+        return [True, corners_point[ind][0], corners_point[ind][1]]
+
     def _check_corners(self):
         corner0 = self.board[0][0]
         corner1 = self.board[0][2]
@@ -322,7 +301,32 @@ class TicTacToe:
         self.board = [['-', '-', '-'],
                       ['-', '-', '-'],
                       ['-', '-', '-']]
-    
+
+    @staticmethod
+    def _get_columns(board):
+        column0 = board[0][0] + board[1][0] + board[2][0]
+        column1 = board[0][1] + board[1][1] + board[2][1]
+        column2 = board[0][2] + board[1][2] + board[2][2]
+        columns = [column0, column1, column2]
+        return columns
+
+    @staticmethod
+    def _get_rows(board):
+        row0 = ''.join(board[0])
+        row1 = ''.join(board[1])
+        row2 = ''.join(board[2])
+        rows = [row0, row1, row2]
+        return rows
+
+    @staticmethod
+    def _get_diagonals(board):
+        diagonal0 = board[0][0] + board[1][1] + board[2][2]
+        diagonal1 = board[0][2] + board[1][1] + board[2][0]
+        diagonals = [diagonal0, diagonal1]
+        return diagonals
+
+
 game = TicTacToe()
+
 
 game.play()
