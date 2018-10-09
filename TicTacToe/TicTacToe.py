@@ -6,7 +6,7 @@ Created on Fri Oct  5 10:03:46 2018
 """
 
 from copy import deepcopy
-
+from time import sleep
 
 class TicTacToe:
     def __init__(self):
@@ -66,11 +66,16 @@ class TicTacToe:
                 r_move, c_move = self._get_move()
                 self.board[r_move][c_move] = 'X'
                 com_move += 1
+                sleep(1)
                 print('Computer Move: {}'.format(com_move))
+                sleep(1)
                 print('Row: {}\nColumn: {}'.format(r_move + 1, c_move + 1))
+                sleep(1)
                 print('\n{}'.format(self.print_board()))
+                sleep(1)
                 winner = self._check_winner()
                 if winner[0]:
+                    sleep(1)
                     print(winner[1])
                     print('Congrats, you lost to the computer!')
         self._reset_board()
@@ -83,11 +88,15 @@ class TicTacToe:
             r_move, c_move = self._get_move()
             self.board[r_move][c_move] = 'X'
             com_move += 1
+            sleep(1)
             print('Computer Move: {}'.format(com_move))
+            sleep(1)
             print('Row: {}\nColumn: {}'.format(r_move + 1, c_move + 1))
+            sleep(1)
             print('\n{}'.format(self.print_board()))
             winner = self._check_winner()
             if winner[0]:
+                sleep(1)
                 print(winner[1])
                 print('Congrats, you lost to the computer!')
             else:
