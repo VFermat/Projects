@@ -15,9 +15,22 @@ class Encipher:
         self.encrypted_message = None
         self.decrypted_message = None
 
+    def validate_decryption(self):
+        if self.encrypted_message is None:
+            return 'Message was not encrypted yet.'
+        elif self.decrypted_message is None:
+            return 'Message was not decrypted yet.'
+        else:
+            message = [m for m in self.message if m is in self.alphabet]
+            if message == self.decrypted_message:
+                return 'Decryption is Valid!'
+            return 'Decryption was invalid! Someone is trying to break into the system.'
+
     def encrypt(self, type='ceasar', key=None):
-        if type.lower() == 'vigenere':
-            return self._vigenere_encryption(key)
+        pass
+
+    def decrypt(self, type='ceasar', key=None):
+        pass
 
     def _ceasar_encryption(self, key=None):
         pass
@@ -72,11 +85,3 @@ class Encipher:
             decrypted_message += self.alphabet[d]
         self.decrypted_message = decrypted_message
         return decrypted_message
-
-
-
-encipher = Encipher('No InFinance estudamos')
-
-print(encipher.encrypt(type='vigenere', key='vitor'))
-
-print(encipher._vigenere_decryption('vitor'))
