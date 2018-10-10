@@ -12,16 +12,16 @@ class Encipher:
                          'n', 'o', 'p', 'q', 'r', 's', 't',
                          'u', 'v', 'w', 'x', 'y', 'z']
         self.key = None
-        self.encrypted_message = None
+        self.encrypted_message = message.lower()
         self.decrypted_message = None
 
     def validate_decryption(self):
-        if self.encrypted_message is None:
+        if self.encrypted_message == self.message :
             return 'Message was not encrypted yet.'
         elif self.decrypted_message is None:
             return 'Message was not decrypted yet.'
         else:
-            message = [m for m in self.message if m is in self.alphabet]
+            message = [m for m in self.message if m in self.alphabet]
             if message == self.decrypted_message:
                 return 'Decryption is Valid!'
             return 'Decryption was invalid! Someone is trying to break into the system.'
@@ -33,10 +33,38 @@ class Encipher:
         pass
 
     def _ceasar_encryption(self, key=None):
-        pass
+        encrypted_message = ''
+        if type(key) is not int:
+            if key in self.alphabet:
+                key = self.alphabet.index(key)
+            else:
+                print('Invalid Key. Algorithm is creating a random key for you!')
+                key = random.randint(0, 25)
+                print('Your key is {}'.format(key))
+        word = [m for m in self.encrypted_message if m in self.alphabet]
+        for i in range(len(word)):
+            # Position of the letter on the alphabet
+            m = self.alphabet.index(word[i])
+            # Position for the encrypted letter
+            e = (m + key) % len(self.alphabet)
+            # Adding encrypted letter to the message
+            encrypted_message += self.alphabet[e]
+        self.encrypted_message = encrypted_message
+        return encrypted_message
+
 
     def _ceasar_decryption(self, key):
-        pass
+        decrypted_message = ''
+        crypted = [c for c in self.encrypted_message]
+        for i in range(len(crypted)):
+            # Position of the encrypted letter on the alphabet
+            c = self.alphabet.index(crypted[i])
+            # Position of the decrypted letter on the alphabet
+            d = (c - key) % len(self.alphabet)
+            # Adding Decrypted Letter to the message
+            decrypted_message += self.alphabet[d]
+        self.decrypted_message = decrypted_message
+        return self.decrypted_message
 
     def _vernam_encryption(self):
         pass
@@ -53,7 +81,7 @@ class Encipher:
         self.key = key
         key = [k for k in key]
         # Breaking the message into characters
-        word = [m for m in self.message if m in self.alphabet]
+        word = [m for m in self.encrypted_message if m in self.alphabet]
         for i in range(len(word)):
             if word[i] in self.alphabet:
                 # Position of the letter on the alphabet
