@@ -88,8 +88,22 @@ class Encipher:
         self.encrypted_message = encrypted_message
         return encrypted_message
 
-    def _affine_decryption(self, key):
-        pass
+    def _affine_decryption(self, a_key, b_key):
+        # Modular Multiplicative Inverse for a is needed for decryption
+        a_inverse = self._get_modular_inverse(a_key)
+        # Initializes de decrypted message
+        decrypted_message = ''
+        # Getting crypted message
+        crypted = [c for c in self.encrypted_message]
+        for i in range(len(crypted)):
+            # Position of the Crypted Letter on the alphabet
+            c = self.alphabet.index(crypted[i])
+            # Position of the decrypted letter on the alphabet
+            d = (a_inverse*(c - b_key)) % len(self.alphabet)
+            # Adding letter to the decrypted message
+            decrypted_message += self.alphabet[d]
+        self.decrypted_message = decrypted_message
+        return decrypted_message
 
     def _vigenere_encryption(self, key):
         encrypted_message = ''
@@ -145,7 +159,17 @@ class Encipher:
                 primes.append(i)
         return primes
 
-    def _is_prime(self, i):
+    def _get_modular_inverse(self, a_key):
+        a_inverse = 1
+        i = 1000
+        while i > 0:
+            if a_inverse * a_key % len(self.alphabet) == 1:
+                return a_inverse
+            a_inverse += 1
+        return 0
+
+    @staticmethod
+    def _is_prime(i):
         for divisor in range(2, i-1):
             if i % divisor == 0:
                 return False
